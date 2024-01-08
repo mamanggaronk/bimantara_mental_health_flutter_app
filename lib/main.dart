@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ui/pages/home_page.dart';
 import 'package:flutter_application_1/ui/pages/splash_page.dart';
+import 'package:flutter_application_1/ui/screen/main_screen.dart';
 import 'package:get/get.dart';
 
 import 'ui/pages/login_page.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/home',
+      initialRoute: '/main',
       getPages: [
         GetPage(
           name: '/',
@@ -41,6 +42,10 @@ class MyApp extends StatelessWidget {
           name: '/home',
           page: () => const HomePage(),
         ),
+        GetPage(
+          name: '/main',
+          page: () => const MainScreen(),
+        )
       ],
     );
   }
