@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ui/pages/home_page.dart';
 import 'package:flutter_application_1/ui/pages/splash_page.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: '/home',
       getPages: [
         GetPage(
           name: '/',
@@ -35,6 +36,10 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/sign-up',
           page: () => const SignUpPage(),
+        ),
+        GetPage(
+          name: '/home',
+          page: () => const HomePage(),
         ),
       ],
     );
