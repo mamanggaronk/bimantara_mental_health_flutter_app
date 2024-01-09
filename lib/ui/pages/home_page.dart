@@ -1,39 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ui/widgets/custom_app_bar.dart';
+import 'package:flutter_application_1/ui/widgets/quote_text.dart';
+import 'package:gap/gap.dart';
+
+import '../widgets/mood_picker.dart';
+import '../widgets/talk_place.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Bimantara Beranda'),
-      ),
-      body: ListView(
-        children: [
-          Card(
-            elevation: 2.0,
-            margin: EdgeInsets.all(8.0),
-            child: ListTile(
-              title: Text('BIMANTARA'),
-              subtitle: Text('Deskripsi konten BIMANTARA'),
-              onTap: () {
-                // Navigasi ke halaman detail atau tindakan lainnya
-              },
-            ),
-          ),
-          Card(
-            elevation: 2.0,
-            margin: EdgeInsets.all(8.0),
-            child: ListTile(
-              title: Text('BIMANTARA'),
-              subtitle: Text('Deskripsi konten Bimantara'),
-              onTap: () {
-                // Navigasi ke halaman detail atau tindakan lainnya
-              },
-            ),
-          ),
-          // Tambahkan lebih banyak Card untuk konten lainnya
+    return const Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          CustomAppBar(),
+          Gap(17),
+          MoodPicker(),
+          Gap(17),
+          TalkPlace(),
+          QuoteText(),
         ],
       ),
     );

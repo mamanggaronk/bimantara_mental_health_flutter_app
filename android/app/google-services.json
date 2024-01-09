@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "602186457091",
+    "project_id": "bimantara-3828c",
+    "storage_bucket": "bimantara-3828c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602186457091:android:31c22518afbcc1d490ae36",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDm6tNNY0sG71CF8yosMrMkNztq-UMJIM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

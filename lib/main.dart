@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ui/pages/home_page.dart';
 import 'package:flutter_application_1/ui/pages/splash_page.dart';
+import 'package:flutter_application_1/ui/screen/main_screen.dart';
 import 'package:get/get.dart';
-
+import 'firebase_options.dart';
 import 'ui/pages/login_page.dart';
 import 'ui/pages/sign_up_page.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(
     const MyApp(),
   );
@@ -22,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
+      initialRoute: '/splash',
       getPages: [
         GetPage(
           name: '/',
@@ -36,6 +42,14 @@ class MyApp extends StatelessWidget {
           name: '/sign-up',
           page: () => const SignUpPage(),
         ),
+        GetPage(
+          name: '/home',
+          page: () => const HomePage(),
+        ),
+        GetPage(
+          name: '/main',
+          page: () => const MainScreen(),
+        )
       ],
     );
   }
