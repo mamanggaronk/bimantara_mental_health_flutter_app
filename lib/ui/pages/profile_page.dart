@@ -1,68 +1,84 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Halodoc Profil',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ProfilePage(),
-    );
-  }
-}
+import 'package:flutter_application_1/common/colors.dart';
+import 'package:flutter_application_1/common/text_styles.dart';
+import 'package:gap/gap.dart';
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profil Saya'),
+        title: Text(
+          'Profil Saya',
+          style: medium,
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               radius: 60,
-              backgroundImage: AssetImage('assets/profile_picture.jpg'), // Ganti dengan path gambar profil
+              backgroundColor: white,
+              backgroundImage: NetworkImage(
+                'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
+              ),
             ),
-            SizedBox(height: 16),
+            const Gap(
+              16,
+            ),
             Text(
               'Nama Pengguna',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: bold.copyWith(
+                fontSize: 24,
+              ),
             ),
-            SizedBox(height: 8),
+            const Gap(
+              8,
+            ),
             Text(
               'Spesialis Dokter Umum',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: regular.copyWith(
+                fontSize: 16,
+                color: Colors.grey,
+              ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             buildInfoRow('Email', 'pengguna@example.com'),
             buildInfoRow('Nomor Telepon', '0812-3456-7890'),
             buildInfoRow('Alamat', 'Jl. Contoh No. 123, Kota Contoh'),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Handle tombol edit profil
-              },
-              child: Text('Edit Profil'),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Handle tombol keluar
+                // ! TODO: Tambahkan fungsi untuk edit profil
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.red,
+                foregroundColor: white,
+                backgroundColor: primaryColor,
               ),
-              child: Text('Keluar'),
+              child: Text(
+                'Edit Profil',
+                style: bold,
+              ),
+            ),
+            const Gap(
+              10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // ! TODO: Tambahkan fungsi untuk logout
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: white,
+                backgroundColor: Colors.red,
+              ),
+              child: Text(
+                'Keluar',
+                style: bold,
+              ),
             ),
           ],
         ),
@@ -78,103 +94,15 @@ class ProfilePage extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 16),
+            style: medium.copyWith(
+              fontSize: 16,
+            ),
           ),
           Text(
             value,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Halodoc Profil',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: ProfilePage(),
-    );
-  }
-}
-
-class ProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profil Saya'),
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 60,
-              backgroundImage: AssetImage('assets/profile_picture.jpg'), // Ganti dengan path gambar profil
+            style: semiBold.copyWith(
+              fontSize: 16,
             ),
-            SizedBox(height: 16),
-            Text(
-              'Nama Pengguna',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Spesialis Dokter Umum',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            SizedBox(height: 16),
-            buildInfoRow('Email', 'pengguna@example.com'),
-            buildInfoRow('Nomor Telepon', '0812-3456-7890'),
-            buildInfoRow('Alamat', 'Jl. Contoh No. 123, Kota Contoh'),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Handle tombol edit profil
-              },
-              child: Text('Edit Profil'),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Handle tombol keluar
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.red,
-              ),
-              child: Text('Keluar'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 16),
-          ),
-          Text(
-            value,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),
