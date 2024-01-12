@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/common/colors.dart';
 import 'package:flutter_application_1/common/text_styles.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
 class ChatRoomPage extends StatefulWidget {
   const ChatRoomPage({super.key});
@@ -30,7 +32,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         children: [
           Expanded(
             child: StreamBuilder(
-              stream: _messagesCollection.orderBy('timestamp').snapshots(),
+              stream: _messagesCollection
+                  .orderBy(
+                    'timestamp',
+                    descending: true,
+                  )
+                  .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
                   return const CircularProgressIndicator();
@@ -39,12 +46,14 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                 List<DocumentSnapshot> messages = snapshot.data!.docs;
 
                 return ListView.builder(
+                  reverse: true,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     var message =
                         messages[index].data() as Map<String, dynamic>;
                     return Row(
-                      mainAxisAlignment: message['sender'] == 'User'
+                      mainAxisAlignment: message['sender_id'] ==
+                              FirebaseAuth.instance.currentUser!.uid
                           ? MainAxisAlignment.end
                           : MainAxisAlignment.start,
                       children: [
@@ -61,6 +70,14 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                               Text(
                                 message['text'],
                                 style: regular,
+                              ),
+                              Text(
+                                DateFormat('HH:mm').format(
+                                  (message['timestamp'] as Timestamp).toDate(),
+                                ),
+                                style: regular.copyWith(
+                                  fontSize: 10,
+                                ),
                               ),
                             ],
                           ),
@@ -123,8 +140,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     String text = _messageController.text.trim();
     if (text.isNotEmpty) {
       _messagesCollection.add({
+        'sender_id': FirebaseAuth.instance.currentUser!
+            .uid, // You can replace this with the actual user's name
         'text': text,
-        'sender': 'User', // You can replace this with the actual user's name
         'timestamp': FieldValue.serverTimestamp(),
       });
 
