@@ -100,9 +100,7 @@ class ProfilePage extends StatelessWidget {
           ),
           Text(
             value,
-            style: semiBold.copyWith(
-              fontSize: 16,
-            ),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),
