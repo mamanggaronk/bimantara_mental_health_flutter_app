@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/colors.dart';
 import 'package:flutter_application_1/common/text_styles.dart';
+import 'package:flutter_application_1/data/controller/auth_controller.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.put(AuthController());
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -30,6 +32,8 @@ class LoginPage extends StatelessWidget {
               35,
             ),
             TextField(
+              controller: authController.emailController,
+              style: medium,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(
                   vertical: 15,
@@ -55,6 +59,8 @@ class LoginPage extends StatelessWidget {
               27,
             ),
             TextField(
+              controller: authController.passwordController,
+              style: medium,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(
                   vertical: 15,
@@ -89,7 +95,10 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => authController.login(
+                  authController.emailController.text,
+                  authController.passwordController.text,
+                ),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: white,
                   backgroundColor: primaryColor,
