@@ -1,9 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ui/pages/book_page.dart';
+import 'package:flutter_application_1/ui/pages/chatroom_page.dart';
+import 'package:flutter_application_1/ui/pages/daftar_dokter.dart';
 import 'package:flutter_application_1/ui/pages/home_page.dart';
 import 'package:flutter_application_1/ui/pages/splash_page.dart';
 import 'package:flutter_application_1/ui/screen/main_screen.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'firebase_options.dart';
 import 'ui/pages/login_page.dart';
 import 'ui/pages/sign_up_page.dart';
@@ -13,6 +17,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await initializeDateFormatting('id_ID');
 
   runApp(
     const MyApp(),
@@ -30,10 +35,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/splash',
+      initialRoute: '/main',
       getPages: [
         GetPage(
-          name: '/',
+          name: '/splash',
           page: () => const SplashPage(),
         ),
         GetPage(
@@ -51,7 +56,19 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/main',
           page: () => const MainScreen(),
-        )
+        ),
+        GetPage(
+          name: '/book',
+          page: () => const OrderPage(),
+        ),
+        GetPage(
+          name: '/doctor-list',
+          page: () => const DoctorListPage(),
+        ),
+        GetPage(
+          name: '/chat-room',
+          page: () => const ChatRoomPage(),
+        ),
       ],
     );
   }

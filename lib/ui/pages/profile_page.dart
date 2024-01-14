@@ -3,8 +3,31 @@ import 'package:flutter_application_1/common/colors.dart';
 import 'package:flutter_application_1/common/text_styles.dart';
 import 'package:gap/gap.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController nimController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
+  TextEditingController majorController = TextEditingController();
+  TextEditingController classController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+    nimController.dispose();
+    weightController.dispose();
+    heightController.dispose();
+    majorController.dispose();
+    classController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +39,7 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -31,7 +54,7 @@ class ProfilePage extends StatelessWidget {
               16,
             ),
             Text(
-              'Nama Pengguna',
+              'Shava ',
               style: bold.copyWith(
                 fontSize: 24,
               ),
@@ -40,20 +63,80 @@ class ProfilePage extends StatelessWidget {
               8,
             ),
             Text(
-              'Spesialis Dokter Umum',
+              'Mahasiswa',
               style: regular.copyWith(
                 fontSize: 16,
                 color: Colors.grey,
               ),
             ),
             const SizedBox(height: 16),
-            buildInfoRow('Email', 'pengguna@example.com'),
-            buildInfoRow('Nomor Telepon', '0812-3456-7890'),
-            buildInfoRow('Alamat', 'Jl. Contoh No. 123, Kota Contoh'),
+            buildInfoRow('Email', 'satumaniz@gmail.com'),
+            buildInfoRow('Nomor Telepon', '081235555'),
+            buildInfoRow('Alamat', 'Jl. mana aja uda capek'),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // ! TODO: Tambahkan fungsi untuk edit profil
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Hal yang ingin kamu bagikan?',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    const Text(
+                      'Edit Profil:',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    TextField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        hintText: 'Nama',
+                      ),
+                    ),
+                    TextField(
+                      controller: nimController,
+                      decoration: const InputDecoration(
+                        hintText: 'NIM',
+                      ),
+                    ),
+                    TextField(
+                      controller: weightController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        hintText: 'Berat Badan (kg)',
+                      ),
+                    ),
+                    TextField(
+                      controller: heightController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        hintText: 'Tinggi Badan (cm)',
+                      ),
+                    ),
+                    TextField(
+                      controller: majorController,
+                      decoration: const InputDecoration(
+                        hintText: 'Jurusan',
+                      ),
+                    ),
+                    TextField(
+                      controller: classController,
+                      decoration: const InputDecoration(
+                        hintText: 'Kelas',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    ElevatedButton(
+                      onPressed: () {
+                        // _placeOrder();
+                      },
+                      child: const Text('Pesan'),
+                    ),
+                  ],
+                );
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: white,
@@ -100,7 +183,7 @@ class ProfilePage extends StatelessWidget {
           ),
           Text(
             value,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),

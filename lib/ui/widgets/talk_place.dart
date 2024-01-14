@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/colors.dart';
 import 'package:flutter_application_1/common/text_styles.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class TalkPlace extends StatelessWidget {
   const TalkPlace({super.key});
@@ -33,7 +34,9 @@ class TalkPlace extends StatelessWidget {
             bottom: 10,
             right: 15,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed('/book');
+              },
               style: ElevatedButton.styleFrom(
                 elevation: 0,
                 foregroundColor: primaryColor,
@@ -52,7 +55,7 @@ class TalkPlace extends StatelessWidget {
               style: regular.copyWith(
                 fontSize: 18,
                 color: white,
-              )
+              ),
             ),
           )
         ],
