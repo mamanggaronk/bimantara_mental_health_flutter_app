@@ -13,7 +13,6 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   final _noteController = TextEditingController();
-  final _placeController = TextEditingController();
 
   String place = '';
   String date = '';
@@ -55,17 +54,6 @@ class _OrderPageState extends State<OrderPage> {
                 fontSize: 18,
               ),
             ),
-            // DropdownButton(
-            //   items: const [
-            //     DropdownMenuItem(
-            //       child: Text('Chat'),
-            //     ),
-            //     DropdownMenuItem(
-            //       child: Text('Datang ke Rumah'),
-            //     ),
-            //   ],
-            //   onChanged: (value) {},
-            // ),
             DropdownMenu(
               textStyle: regular,
               expandedInsets: EdgeInsets.zero,
@@ -114,13 +102,6 @@ class _OrderPageState extends State<OrderPage> {
                 fontSize: 18,
               ),
             ),
-            // TextField(
-            //   controller: _dateController,
-            //   keyboardType: TextInputType.number,
-            //   decoration: InputDecoration(
-            //     hintText: 'Silakan masukkan waktu dan tempat',
-            //   ),
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -231,9 +212,15 @@ class _OrderPageState extends State<OrderPage> {
   }
 
   void _placeOrder() {
-    if (_noteController.text.isNotEmpty && place == 'online' && date != '' && time != '') {
+    if (_noteController.text.isNotEmpty &&
+        place == 'online' &&
+        date != '' &&
+        time != '') {
       Navigator.pushNamed(context, '/doctor-list');
-    } else if (_noteController.text.isNotEmpty && place == 'offline' && date != '' && time != '') {
+    } else if (_noteController.text.isNotEmpty &&
+        place == 'offline' &&
+        date != '' &&
+        time != '') {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(

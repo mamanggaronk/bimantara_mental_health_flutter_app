@@ -34,7 +34,7 @@ const moodList = [
 ];
 
 class MoodPicker extends StatelessWidget {
-  const MoodPicker({super.key});
+  const MoodPicker({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +49,7 @@ class MoodPicker extends StatelessWidget {
               fontSize: 16,
             ),
           ),
-          const Gap(
-            20,
-          ),
+          const Gap(20),
           SizedBox(
             height: 100,
             child: ListView.builder(
@@ -59,35 +57,38 @@ class MoodPicker extends StatelessWidget {
               itemCount: moodList.length,
               itemBuilder: (context, index) {
                 final mood = moodList[index];
-                return Container(
-                  margin: const EdgeInsets.only(right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          color: mood['color'] as Color,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: SvgPicture.asset(
-                            mood['iconPath'] as String,
+                return GestureDetector(
+                  onTap: () {
+                    _showMoodDialog(context, mood['label'] as String);
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 70,
+                          width: 70,
+                          decoration: BoxDecoration(
+                            color: mood['color'] as Color,
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                        )
-                      ),
-                      const Gap(
-                        10,
-                      ),
-                      Text(
-                        mood['label'] as String,
-                        style: medium.copyWith(
-                          fontSize: 14,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: SvgPicture.asset(
+                              mood['iconPath'] as String,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                        const Gap(10),
+                        Text(
+                          mood['label'] as String,
+                          style: medium.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },
@@ -95,6 +96,28 @@ class MoodPicker extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Future<void> _showMoodDialog(BuildContext context, String moodLabel) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Terima Kasih sudah check in 🙏'),
+          content: Text(
+            'Mood anda hari ini $moodLabel',
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

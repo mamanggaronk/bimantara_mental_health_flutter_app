@@ -25,8 +25,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       appBar: AppBar(
         title: Text(
           'Chat Room',
-          style: regular,
+          style: bold,
         ),
+        backgroundColor: primaryColor,
       ),
       body: Column(
         children: [
@@ -41,55 +42,71 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
                   return const CircularProgressIndicator();
-                }
+                } else {
+                  List<DocumentSnapshot> messages = snapshot.data!.docs;
+                  List<Map<String, dynamic>> formattedMessages = [];
 
-                List<DocumentSnapshot> messages = snapshot.data!.docs;
+                  for (DocumentSnapshot message in messages) {
+                    Timestamp timestamp = message['timestamp'] as Timestamp;
+                    String formattedTime =
+                        DateFormat('HH:mm').format(timestamp.toDate());
 
-                return ListView.builder(
-                  reverse: true,
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    var message =
-                        messages[index].data() as Map<String, dynamic>;
-                    return Row(
-                      mainAxisAlignment: message['sender_id'] ==
-                              FirebaseAuth.instance.currentUser!.uid
-                          ? MainAxisAlignment.end
-                          : MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.all(5),
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                message['text'],
-                                style: regular,
+                    Map<String, dynamic> formattedData = {
+                      'sender_id': message['sender_id'],
+                      'text': message['text'],
+                      'timestamp': formattedTime,
+                    };
+
+                    formattedMessages.add(formattedData);
+                  }
+
+                  if (formattedMessages.isEmpty) {
+                    return const CircularProgressIndicator();
+                  } else {
+                    return ListView.builder(
+                      reverse: true,
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        var message =
+                            messages[index].data() as Map<String, dynamic>;
+                        return Row(
+                          mainAxisAlignment: message['sender_id'] ==
+                                  FirebaseAuth.instance.currentUser!.uid
+                              ? MainAxisAlignment.end
+                              : MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              Text(
-                                DateFormat('HH:mm').format(
-                                  (message['timestamp'] as Timestamp).toDate(),
-                                ),
-                                style: regular.copyWith(
-                                  fontSize: 10,
-                                ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    message['text'],
+                                    style: regular,
+                                  ),
+                                  Text(
+                                    DateFormat('HH:mm').format(
+                                      (message['timestamp'] as Timestamp)
+                                          .toDate(),
+                                    ),
+                                    style: regular.copyWith(
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      ],
+                            ),
+                          ],
+                        );
+                      },
                     );
-                    // return ListTile(
-                    //   title: Text(message['text']),
-                    //   subtitle: Text(message['sender']),
-                    // );
-                  },
-                );
+                  }
+                }
               },
             ),
           ),
@@ -140,10 +157,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     String text = _messageController.text.trim();
     if (text.isNotEmpty) {
       _messagesCollection.add({
-        'sender_id': FirebaseAuth.instance.currentUser!
-            .uid, // You can replace this with the actual user's name
+        'sender_id': FirebaseAuth.instance.currentUser!.uid,
         'text': text,
-        'timestamp': FieldValue.serverTimestamp(),
+        'timestamp': DateTime.now(),
       });
 
       _messageController.clear();
