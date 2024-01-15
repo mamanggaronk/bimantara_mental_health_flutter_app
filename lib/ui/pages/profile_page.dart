@@ -1,33 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/colors.dart';
+import 'package:flutter_application_1/common/text_string.dart';
 import 'package:flutter_application_1/common/text_styles.dart';
+import 'package:flutter_application_1/ui/pages/update_profil.dart';
 import 'package:gap/gap.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController nimController = TextEditingController();
-  TextEditingController weightController = TextEditingController();
-  TextEditingController heightController = TextEditingController();
-  TextEditingController majorController = TextEditingController();
-  TextEditingController classController = TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-    nameController.dispose();
-    nimController.dispose();
-    weightController.dispose();
-    heightController.dispose();
-    majorController.dispose();
-    classController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +17,12 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text(
           'Profil Saya',
-          style: medium,
+          style: bold,
         ),
+        backgroundColor: primaryColor,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -54,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
               16,
             ),
             Text(
-              'Shava ',
+              'Shava',
               style: bold.copyWith(
                 fontSize: 24,
               ),
@@ -63,109 +46,173 @@ class _ProfilePageState extends State<ProfilePage> {
               8,
             ),
             Text(
-              'Mahasiswa',
-              style: regular.copyWith(
+              'shava123@gmail.com',
+              style: medium.copyWith(
                 fontSize: 16,
                 color: Colors.grey,
               ),
             ),
-            const SizedBox(height: 16),
-            buildInfoRow('Email', 'satumaniz@gmail.com'),
-            buildInfoRow('Nomor Telepon', '081235555'),
-            buildInfoRow('Alamat', 'Jl. mana aja uda capek'),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Hal yang ingin kamu bagikan?',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const Text(
-                      'Edit Profil:',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    TextField(
-                      controller: nameController,
-                      decoration: const InputDecoration(
-                        hintText: 'Nama',
-                      ),
-                    ),
-                    TextField(
-                      controller: nimController,
-                      decoration: const InputDecoration(
-                        hintText: 'NIM',
-                      ),
-                    ),
-                    TextField(
-                      controller: weightController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: 'Berat Badan (kg)',
-                      ),
-                    ),
-                    TextField(
-                      controller: heightController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: 'Tinggi Badan (cm)',
-                      ),
-                    ),
-                    TextField(
-                      controller: majorController,
-                      decoration: const InputDecoration(
-                        hintText: 'Jurusan',
-                      ),
-                    ),
-                    TextField(
-                      controller: classController,
-                      decoration: const InputDecoration(
-                        hintText: 'Kelas',
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-
-                    ElevatedButton(
-                      onPressed: () {
-                        // _placeOrder();
-                      },
-                      child: const Text('Pesan'),
-                    ),
-                  ],
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: white,
-                backgroundColor: primaryColor,
-              ),
-              child: Text(
-                'Edit Profil',
-                style: bold,
-              ),
-            ),
             const Gap(
-              10,
+              8,
             ),
-            ElevatedButton(
-              onPressed: () {
-                // ! TODO: Tambahkan fungsi untuk logout
+            SizedBox(
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Navigate to UpdateProfil
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UpdateProfil()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: white,
+                  backgroundColor: primaryColor,
+                ),
+                child: Text(
+                  'Edit Profil',
+                  style: bold,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Divider(),
+            const SizedBox(
+              height: 10,
+            ),
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: primaryColor,
+                ),
+                child: const Icon(
+                  FontAwesomeIcons.calendar,
+                  size: 18.0,
+                ),
+              ),
+              title: Text(
+                tmenu1,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              trailing: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: white,
+                ),
+                child: const Icon(
+                  FontAwesomeIcons.angleRight,
+                  size: 18.0,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: primaryColor,
+                ),
+                child: const Icon(
+                  FontAwesomeIcons.info,
+                  size: 18.0,
+                ),
+              ),
+              title: Text(
+                tmenu3,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              trailing: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: white,
+                ),
+                child: const Icon(
+                  FontAwesomeIcons.angleRight,
+                  size: 18.0,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: primaryColor,
+                ),
+                child: const Icon(
+                  FontAwesomeIcons.doorOpen,
+                  size: 18.0,
+                ),
+              ),
+              title: Text(
+                tmenu4,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.red, // Set the color to red
+                    ),
+              ),
+              trailing: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: white,
+                ),
+                child: const Icon(
+                  FontAwesomeIcons.angleRight,
+                  size: 18.0,
+                  color: Colors.grey,
+                ),
+              ),
+              onTap: () {
+                _handleLogOut(context);
               },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: white,
-                backgroundColor: Colors.red,
-              ),
-              child: Text(
-                'Keluar',
-                style: bold,
-              ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  void _handleLogOut(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Konfirmasi'),
+          content: Text('Yakin ingin keluar?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () async {
+                // Perform log-out actions here
+                // For example, clear user authentication status, navigate to login screen, etc.
+                // Navigate to the login screen
+                await FirebaseAuth.instance.signOut();
+                Get.offAndToNamed('/login');
+              },
+              child: Text('Ya'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -183,7 +230,9 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Text(
             value,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: semiBold.copyWith(
+              fontSize: 16,
+            ),
           ),
         ],
       ),

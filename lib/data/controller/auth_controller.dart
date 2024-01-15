@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,7 +26,38 @@ class AuthController extends GetxController {
     }
   }
 
-  void logout() {
-    _isLogin.value = false;
+  Future<void> signUp(String email, String password, String fullName,
+      String phoneNumber) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await FirebaseFirestore.instance.collection('user').add({
+        'email': email,
+        'fullname': fullName,
+        'phone_number': phoneNumber,
+      });
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar(
+        'Error',
+        e.code,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar(
+        'Error',
+        e.code,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 }

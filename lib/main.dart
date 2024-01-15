@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ui/pages/book_page.dart';
-import 'package:flutter_application_1/ui/pages/chatroom_page.dart';
 import 'package:flutter_application_1/ui/pages/daftar_dokter.dart';
 import 'package:flutter_application_1/ui/pages/home_page.dart';
+import 'package:flutter_application_1/ui/pages/journal_page.dart';
 import 'package:flutter_application_1/ui/pages/splash_page.dart';
 import 'package:flutter_application_1/ui/screen/main_screen.dart';
 import 'package:get/get.dart';
@@ -35,10 +35,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/main',
+      initialRoute: '/splash',
       getPages: [
         GetPage(
-          name: '/splash',
+          name: '/',
           page: () => const SplashPage(),
         ),
         GetPage(
@@ -66,8 +66,8 @@ class MyApp extends StatelessWidget {
           page: () => const DoctorListPage(),
         ),
         GetPage(
-          name: '/chat-room',
-          page: () => const ChatRoomPage(),
+          name: '/journal',
+          page: () => const JournalPage(),
         ),
       ],
     );
