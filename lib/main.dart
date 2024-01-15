@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ui/pages/book_page.dart';
 import 'package:flutter_application_1/ui/pages/daftar_dokter.dart';
 import 'package:flutter_application_1/ui/pages/home_page.dart';
+import 'package:flutter_application_1/ui/pages/journal_page.dart';
 import 'package:flutter_application_1/ui/pages/splash_page.dart';
 import 'package:flutter_application_1/ui/screen/main_screen.dart';
 import 'package:get/get.dart';
@@ -63,6 +64,10 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/doctor-list',
           page: () => const DoctorListPage(),
+        ),
+        GetPage(
+          name: '/journal',
+          page: () => const JournalPage(),
         ),
       ],
     );

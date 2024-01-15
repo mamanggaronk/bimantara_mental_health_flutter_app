@@ -1,28 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/colors.dart';
 import 'package:flutter_application_1/common/text_styles.dart';
+import 'package:flutter_application_1/data/controller/auth_controller.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController fullnameController = TextEditingController();
+  final TextEditingController phonenumberController = TextEditingController();
+
+  AuthController authController = Get.put(AuthController());
+
+  void _signUp() async {
+    try {
+      String email = emailController.text;
+      String password = passwordController.text;
+      String fullname = fullnameController.text;
+      String phonenumber = phonenumberController.text;
+
+      await authController.signUp(email, password, fullname, phonenumber);
+
+      Get.toNamed('/login');
+    } catch (e) {
+      print("Error during sign-up: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/bg.jpg"),
-            fit: BoxFit.cover,
-          ),
+        body: Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/bg.jpg"),
+          fit: BoxFit.cover,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 27,
-          ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 27,
+        ),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -39,6 +68,7 @@ class SignUpPage extends StatelessWidget {
                 35,
               ),
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 15,
@@ -64,6 +94,7 @@ class SignUpPage extends StatelessWidget {
                 27,
               ),
               TextField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 15,
@@ -96,6 +127,7 @@ class SignUpPage extends StatelessWidget {
                 27,
               ),
               TextField(
+                controller: fullnameController,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 15,
@@ -121,6 +153,7 @@ class SignUpPage extends StatelessWidget {
                 27,
               ),
               TextField(
+                controller: phonenumberController,
                 decoration: InputDecoration(
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 15,
@@ -148,7 +181,7 @@ class SignUpPage extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _signUp,
                   style: ElevatedButton.styleFrom(
                     foregroundColor: white,
                     backgroundColor: primaryColor,
@@ -198,6 +231,6 @@ class SignUpPage extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }

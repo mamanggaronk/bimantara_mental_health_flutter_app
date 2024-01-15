@@ -1,11 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/colors.dart';
 import 'package:flutter_application_1/common/text_string.dart';
 import 'package:flutter_application_1/common/text_styles.dart';
-import 'package:flutter_application_1/ui/pages/login_page.dart';
 import 'package:flutter_application_1/ui/pages/update_profil.dart';
 import 'package:gap/gap.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -200,14 +201,12 @@ class ProfilePage extends StatelessWidget {
               child: Text('Batal'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 // Perform log-out actions here
                 // For example, clear user authentication status, navigate to login screen, etc.
                 // Navigate to the login screen
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
+                await FirebaseAuth.instance.signOut();
+                Get.offAndToNamed('/login');
               },
               child: Text('Ya'),
             ),

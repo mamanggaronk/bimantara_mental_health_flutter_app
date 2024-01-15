@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/colors.dart';
 import 'package:flutter_application_1/common/text_styles.dart';
-import 'package:flutter_application_1/ui/pages/journal_page.dart';
 import 'package:flutter_application_1/ui/widgets/custom_app_bar.dart';
 import 'package:flutter_application_1/ui/widgets/quote_text.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 
 import '../widgets/mood_picker.dart';
 import '../widgets/talk_place.dart';
@@ -30,7 +30,11 @@ class HomePage extends StatelessWidget {
             children: <Widget>[
               CustomAppBar(),
               Gap(17),
-              MoodPicker(),
+              MoodPicker(
+                onTap: (Map<String, dynamic> value) {
+                  print(value);
+                },
+              ),
               Gap(17),
               TalkPlace(),
               QuoteText(),
@@ -145,12 +149,7 @@ class HomePage extends StatelessWidget {
                         right: 15,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => JournalPage(),
-                              ),
-                            );
+                            Get.toNamed('/journal');
                           },
                           style: ElevatedButton.styleFrom(
                             elevation: 0,

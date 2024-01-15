@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_application_1/common/colors.dart';
-import 'package:flutter_application_1/services/auth.dart';
-import 'package:flutter_application_1/services/firestore.dart';
+import 'package:flutter_application_1/data/controller/mood_controller.dart';
+import 'package:get/get.dart';
 
 List<Color> customColors = [
   Colors.tealAccent,
@@ -12,106 +11,22 @@ List<Color> customColors = [
   // Add more colors as needed
 ];
 
-class JournalPage extends StatefulWidget {
-  const JournalPage({Key? key});
-
-  @override
-  State<JournalPage> createState() => _JournalPageState();
-}
-
-class _JournalPageState extends State<JournalPage> {
-  String? errorMessage = "";
-  final FirestoreService firestoreService = FirestoreService();
-  final TextEditingController textController = TextEditingController();
-
-  Future<void> signOutAccount() async {
-    try {
-      await Auth().signOut();
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
-  }
-
-  void openNoteBox(
-      {String? docID, String action = "add", String? defaultNote}) {
-    textController.text = defaultNote ?? "";
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        title: Text(action == "add" ? "Isi Journal" : "Update Journal"),
-        content: TextField(
-          controller: textController,
-          decoration: const InputDecoration(
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue),
-            ),
-          ),
-          cursorColor: Colors.blue,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // Cancel button action
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.grey,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-            ),
-            child: const Text(
-              "Cancel",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (docID == null) {
-                firestoreService.addNote(textController.text);
-              } else {
-                firestoreService.updateNote(docID, textController.text);
-              }
-              textController.clear();
-              Navigator.pop(context); // Close the box
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-            ),
-            child: Text(
-              action == "add" ? "ADD" : "UPDATE",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+class JournalPage extends GetView<MoodController> {
+  const JournalPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => MoodController());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () => Get.back(),
         ),
-        title: Text(
+        title: const Text(
           "Journal",
           style: TextStyle(
             color: Colors.white,
@@ -121,7 +36,7 @@ class _JournalPageState extends State<JournalPage> {
         backgroundColor: primaryColor,
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(5),
+          preferredSize: const Size.fromHeight(5),
           child: Container(
             color: primaryColor,
           ),
@@ -130,7 +45,7 @@ class _JournalPageState extends State<JournalPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: StreamBuilder<QuerySnapshot>(
-          stream: firestoreService.getNotesStream(),
+          stream: controller.firestoreService.getNotesStream(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List notesList = snapshot.data!.docs;
@@ -157,7 +72,7 @@ class _JournalPageState extends State<JournalPage> {
                     child: ListTile(
                       title: Text(
                         noteText,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -167,17 +82,18 @@ class _JournalPageState extends State<JournalPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            onPressed: () => openNoteBox(
+                            onPressed: () => controller.openNoteBox(
                               docID: docID,
                               action: "update",
                               defaultNote: noteText,
                             ),
-                            icon: Icon(Icons.edit),
+                            icon: const Icon(Icons.edit),
                             color: Colors.green,
                           ),
                           IconButton(
-                            onPressed: () => firestoreService.deleteNote(docID),
-                            icon: Icon(Icons.delete),
+                            onPressed: () =>
+                                controller.firestoreService.deleteNote(docID),
+                            icon: const Icon(Icons.delete),
                             color: Colors.red,
                           ),
                         ],
@@ -187,7 +103,7 @@ class _JournalPageState extends State<JournalPage> {
                 },
               );
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -195,13 +111,13 @@ class _JournalPageState extends State<JournalPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => openNoteBox(),
+        onPressed: () => controller.openNoteBox(),
         backgroundColor: primaryColor,
         tooltip: 'Isi Journal',
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100),
         ),
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),

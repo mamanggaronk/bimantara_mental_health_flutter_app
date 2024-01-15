@@ -33,9 +33,19 @@ const moodList = [
   },
 ];
 
-class MoodPicker extends StatelessWidget {
-  const MoodPicker({Key? key});
+class MoodPicker extends StatefulWidget {
+  final Function(Map<String, dynamic>) onTap;
 
+  const MoodPicker({
+    super.key,
+    required this.onTap,
+  });
+
+  @override
+  State<MoodPicker> createState() => _MoodPickerState();
+}
+
+class _MoodPickerState extends State<MoodPicker> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -59,7 +69,11 @@ class MoodPicker extends StatelessWidget {
                 final mood = moodList[index];
                 return GestureDetector(
                   onTap: () {
-                    _showMoodDialog(context, mood['label'] as String);
+                    // _showMoodDialog(context, mood['label'] as String);
+                    setState(() {
+                      widget.onTap(moodList[index]);
+                    });
+                    // print(mood['label'] as String);
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 20),
