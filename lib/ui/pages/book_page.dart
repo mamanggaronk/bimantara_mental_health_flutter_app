@@ -68,7 +68,7 @@ class _OrderPageState extends State<OrderPage> {
             // ),
             DropdownMenu(
               textStyle: regular,
-              expandedInsets: EdgeInsets.zero,
+              
               inputDecorationTheme: const InputDecorationTheme(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
